@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes as Switch, Route, Link } from "react-router-dom";
+import {Routes, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import AddTutorial from "./components/AddTutorial";
@@ -9,11 +9,11 @@ import TutorialsList from "./components/TutorialsList";
 function App() {
   return (
     <div>
-      <nav className="navbar navbar-expand navbar-dark bg-dark">
+      <nav className="navbar navbar-expand navbar-dark bg-dark mx-2 px-3">
         <a href="/tutorials" className="navbar-brand">
-          bezKoder
+          Wallet
         </a>
-        <div className="navbar-nav mr-auto">
+        <div className="navbar-nav mr-auto float-right">
           <li className="nav-item">
             <Link to={"/tutorials"} className="nav-link">
               Tutorials
@@ -28,11 +28,13 @@ function App() {
       </nav>
 
       <div className="container mt-3">
-        <Switch>
-          <Route exact path={["/", "/tutorials"]} component={TutorialsList} />
-          <Route exact path="/add" component={AddTutorial} />
-          <Route path="/tutorials/:id" component={Tutorial} />
-        </Switch>
+      
+        <Routes>
+          <Route  path="/tutorials" element={<TutorialsList/>} />
+          <Route  path="/add" element={<AddTutorial/>} />
+          <Route path="/tutorials/:id" element={<Tutorial/>} />
+        </Routes>
+  
       </div>
     </div>
   );

@@ -6,15 +6,15 @@ const TutorialsList = () => {
   const [tutorials, setTutorials] = useState([]);
   const [currentTutorial, setCurrentTutorial] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
-  const [searchTitle, setSearchTitle] = useState("");
+  const [searchBalance, setSearchBalance] = useState("");
 
   useEffect(() => {
     retrieveTutorials();
   }, []);
 
-  const onChangeSearchTitle = e => {
-    const searchTitle = e.target.value;
-    setSearchTitle(searchTitle);
+  const onChangeSearchBalance = e => {
+    const searchBalance = e.target.value;
+    setSearchBalance(searchBalance);
   };
 
   const retrieveTutorials = () => {
@@ -50,8 +50,8 @@ const TutorialsList = () => {
       });
   };
 
-  const findByTitle = () => {
-    TutorialDataService.findByTitle(searchTitle)
+  const findByBalance = () => {
+    TutorialDataService.findByBalance(searchBalance)
       .then(response => {
         setTutorials(response.data);
         console.log(response.data);
@@ -68,15 +68,15 @@ const TutorialsList = () => {
 	    <input
 	      type="text"
 	      className="form-control"
-	      placeholder="Search by title"
-	      value={searchTitle}
-	      onChange={onChangeSearchTitle}
+	      placeholder="Search by Balance"
+	      value={searchBalance}
+	      onChange={onChangeSearchBalance}
 	    />
 	    <div className="input-group-append">
 	      <button
 		className="btn btn-outline-secondary"
 		type="button"
-		onClick={findByTitle}
+		onClick={findByBalance}
 	      >
 		Search
 	      </button>
@@ -84,7 +84,7 @@ const TutorialsList = () => {
 	  </div>
 	</div>
 	<div className="col-md-6">
-	  <h4>Tutorials List</h4>
+	  <h4>Transaction List</h4>
   
 	  <ul className="list-group">
 	    {tutorials &&
@@ -96,7 +96,7 @@ const TutorialsList = () => {
 		  onClick={() => setActiveTutorial(tutorial, index)}
 		  key={index}
 		>
-		  {tutorial.title}
+		  {tutorial.amount}
 		</li>
 	      ))}
 	  </ul>
@@ -111,12 +111,24 @@ const TutorialsList = () => {
 	<div className="col-md-6">
 	  {currentTutorial ? (
 	    <div>
-	      <h4>Tutorial</h4>
+	      <h4>Transaction</h4>
 	      <div>
 		<label>
-		  <strong>Title:</strong>
+		  <strong>Balance Available:</strong>
 		</label>{" "}
-		{currentTutorial.title}
+		{currentTutorial.balance}
+	      </div>
+	      <div>
+		<label>
+		  <strong>Amount:</strong>
+		</label>{" "}
+		{currentTutorial.amount}
+	      </div>
+		  <div>
+		<label>
+		  <strong>Transaction:</strong>
+		</label>{" "}
+		{currentTutorial.transaction}
 	      </div>
 	      <div>
 		<label>
@@ -133,7 +145,7 @@ const TutorialsList = () => {
   
 	      <Link
 		to={"/tutorials/" + currentTutorial.id}
-		className="badge badge-warning"
+		className="badge badge-warning border border-warning text-warning"
 	      >
 		Edit
 	      </Link>
@@ -141,7 +153,7 @@ const TutorialsList = () => {
 	  ) : (
 	    <div>
 	      <br />
-	      <p>Please click on a Tutorial...</p>
+	      <p>Please click on a Transaction...</p>
 	    </div>
 	  )}
 	</div>

@@ -4,9 +4,10 @@ import TutorialDataService from "../services/TutorialService";
 const AddTutorial = () => {
   const initialTutorialState = {
     id: null,
-    title: "",
     description: "",
-    published: false
+    published: false,
+    amount: "",
+    transaction:""
   };
   const [tutorial, setTutorial] = useState(initialTutorialState);
   const [submitted, setSubmitted] = useState(false);
@@ -18,17 +19,23 @@ const AddTutorial = () => {
 
   const saveTutorial = () => {
     var data = {
-      title: tutorial.title,
-      description: tutorial.description
+      amount: tutorial.amount,
+      description: tutorial.description,
+      transaction: tutorial.transaction
     };
 
     TutorialDataService.create(data)
       .then(response => {
         setTutorial({
           id: response.data.id,
-          title: response.data.title,
+          amount: response.data.amount,
           description: response.data.description,
-          published: response.data.published
+          published: response.data.published,
+          transaction: response.data.transaction,
+          name: response.data.name,
+          email: response.data.email,
+          balance: response.data.balance,
+        
         });
         setSubmitted(true);
         console.log(response.data);
@@ -55,18 +62,27 @@ const AddTutorial = () => {
 	) : (
 	  <div>
 	    <div className="form-group">
-	      <label htmlFor="title">Title</label>
+	      <label htmlFor="amount">Amount</label>
 	      <input
-		type="text"
+		type="number"
 		className="form-control"
-		id="title"
+		id="amount"
 		required
-		value={tutorial.title}
+		value={tutorial.amount}
 		onChange={handleInputChange}
-		name="title"
+		name="amount"
 	      />
 	    </div>
-  
+
+      <div className="form-group">
+      <label htmlFor="amount">Transaction</label>
+      <select className="form-select" aria-label="select Transaction Type" name="transaction" value={tutorial.transaction} onChange={handleInputChange}>
+      <option disabled selected>Select a Transaction Type</option>
+      <option name="transaction">Send</option>
+      <option name="transaction">Request</option>
+      </select>
+      </div>
+
 	    <div className="form-group">
 	      <label htmlFor="description">Description</label>
 	      <input

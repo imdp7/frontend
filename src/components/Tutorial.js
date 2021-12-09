@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 import TutorialDataService from "../services/TutorialService";
+import Table from "./Table";
 
-const Tutorial = props => {
+const Tutorial = (props) => {
+	console.log(props.match)
   const initialTutorialState = {
     id: null,
-    title: "",
+    balance:'',
     description: "",
-    published: false
+    published: false,
+	account_no:'',
+	name: '',
+	email: '',
+	amount:''
   };
   const [currentTutorial, setCurrentTutorial] = useState(initialTutorialState);
   const [message, setMessage] = useState("");
@@ -75,16 +81,16 @@ const Tutorial = props => {
 	<div>
 	{currentTutorial ? (
 	  <div className="edit-form">
-	    <h4>Tutorial</h4>
+	    <h4>Transaction</h4>
 	    <form>
 	      <div className="form-group">
-		<label htmlFor="title">Title</label>
+		<label htmlFor="title">Amount</label>
 		<input
 		  type="text"
 		  className="form-control"
 		  id="title"
 		  name="title"
-		  value={currentTutorial.title}
+		  value={currentTutorial.amount}
 		  onChange={handleInputChange}
 		/>
 	      </div>
@@ -140,10 +146,14 @@ const Tutorial = props => {
 	) : (
 	  <div>
 	    <br />
-	    <p>Please click on a Tutorial...</p>
+	    <p>Please click on a transaction...</p>
 	  </div>
 	)}
+
+	
+		<Table/>
       </div>
+	
     );
   };
 
