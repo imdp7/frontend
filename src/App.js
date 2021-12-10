@@ -32,7 +32,7 @@ function App() {
         <Routes>
           <Route  path="/tutorials" element={<TutorialsList/>} />
           <Route  path="/add" element={<AddTutorial/>} />
-          <Route path="/tutorials/:id" element={<Tutorial/>} />
+          <Route path="/tutorials/:account_no" element={<Tutorial/>} />
         </Routes>
   
       </div>

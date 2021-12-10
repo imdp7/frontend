@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from "react";
 import TutorialDataService from "../services/TutorialService";
 import { Link } from "react-router-dom";
+import Table from "./Table";
 
 const TutorialsList = () => {
   const [tutorials, setTutorials] = useState([]);
   const [currentTutorial, setCurrentTutorial] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
-  const [searchBalance, setSearchBalance] = useState("");
+  const [searchTransaction, setSearchTransaction] = useState("");
 
   useEffect(() => {
     retrieveTutorials();
   }, []);
 
-  const onChangeSearchBalance = e => {
-    const searchBalance = e.target.value;
-    setSearchBalance(searchBalance);
+  const onChangeSearchTransaction = e => {
+    const searchTransaction = e.target.value;
+    setSearchTransaction(searchTransaction);
   };
 
   const retrieveTutorials = () => {
     TutorialDataService.getAll()
       .then(response => {
         setTutorials(response.data);
-        console.log(response.data);
       })
       .catch(e => {
         console.log(e);
@@ -50,8 +50,8 @@ const TutorialsList = () => {
       });
   };
 
-  const findByBalance = () => {
-    TutorialDataService.findByBalance(searchBalance)
+  const findByTransaction = () => {
+    TutorialDataService.findByTransaction(searchTransaction)
       .then(response => {
         setTutorials(response.data);
         console.log(response.data);
@@ -68,15 +68,15 @@ const TutorialsList = () => {
 	    <input
 	      type="text"
 	      className="form-control"
-	      placeholder="Search by Balance"
-	      value={searchBalance}
-	      onChange={onChangeSearchBalance}
+	      placeholder="Search by Transaction Type"
+	      value={searchTransaction}
+	      onChange={onChangeSearchTransaction}
 	    />
 	    <div className="input-group-append">
 	      <button
 		className="btn btn-outline-secondary"
 		type="button"
-		onClick={findByBalance}
+		onClick={findByTransaction}
 	      >
 		Search
 	      </button>
@@ -96,7 +96,7 @@ const TutorialsList = () => {
 		  onClick={() => setActiveTutorial(tutorial, index)}
 		  key={index}
 		>
-		  {tutorial.amount}
+		  {tutorial.account_no}
 		</li>
 	      ))}
 	  </ul>
@@ -116,13 +116,13 @@ const TutorialsList = () => {
 		<label>
 		  <strong>Balance Available:</strong>
 		</label>{" "}
-		{currentTutorial.balance}
+		{currentTutorial.balance ? currentTutorial.balance :'Not Available'}
 	      </div>
 	      <div>
 		<label>
 		  <strong>Amount:</strong>
 		</label>{" "}
-		{currentTutorial.amount}
+		{currentTutorial.amount ? currentTutorial.amount : 'Not Available'}
 	      </div>
 		  <div>
 		<label>
@@ -130,11 +130,18 @@ const TutorialsList = () => {
 		</label>{" "}
 		{currentTutorial.transaction}
 	      </div>
+		  <div>
+		<label>
+		  <strong>Email:</strong>
+		</label>{" "}
+		{currentTutorial.email ? currentTutorial.email :'Not Available' }
+	      </div>
+
 	      <div>
 		<label>
 		  <strong>Description:</strong>
 		</label>{" "}
-		{currentTutorial.description}
+		{currentTutorial.description ? currentTutorial.description :'Not Available' }
 	      </div>
 	      <div>
 		<label>
@@ -144,7 +151,7 @@ const TutorialsList = () => {
 	      </div>
   
 	      <Link
-		to={"/tutorials/" + currentTutorial.id}
+		to={"/tutorials/" + currentTutorial.account_no}
 		className="badge badge-warning border border-warning text-warning"
 	      >
 		Edit

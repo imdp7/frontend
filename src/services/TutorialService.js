@@ -4,28 +4,28 @@ const getAll = () => {
   return http.get("/tutorials");
 };
 
-const get = id => {
-  return http.get(`/tutorials/${id}`);
+const get = account_no => {
+  return http.get(`/tutorials/${account_no}`);
 };
 
 const create = data => {
   return http.post("/tutorials", data);
 };
 
-const update = (id, data) => {
-  return http.put(`/tutorials/${id}`, data);
+const update = (account_no, data) => {
+  return http.put(`/tutorials/${account_no}`, data);
 };
 
-const remove = id => {
-  return http.delete(`/tutorials/${id}`);
+const remove = account_no => {
+  return http.delete(`/tutorials/${account_no}`);
 };
 
 const removeAll = () => {
   return http.delete(`/tutorials`);
 };
 
-const findByTitle = title => {
-  return http.get(`/tutorials?title=${title}`);
+const findByTransaction = transaction => {
+  return http.get(`/tutorials?transaction=${transaction}`);
 };
 
 export default {
@@ -35,5 +35,5 @@ export default {
   update,
   remove,
   removeAll,
-  findByTitle
+  findByTransaction
 };

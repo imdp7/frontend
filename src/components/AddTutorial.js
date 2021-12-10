@@ -5,9 +5,11 @@ const AddTutorial = () => {
   const initialTutorialState = {
     id: null,
     description: "",
-    published: false,
+    published: true,
     amount: "",
-    transaction:""
+    transaction:"",
+    email: "",
+    name: "",
   };
   const [tutorial, setTutorial] = useState(initialTutorialState);
   const [submitted, setSubmitted] = useState(false);
@@ -21,13 +23,16 @@ const AddTutorial = () => {
     var data = {
       amount: tutorial.amount,
       description: tutorial.description,
-      transaction: tutorial.transaction
+      transaction: tutorial.transaction,
+      email: tutorial.email,
+      name: tutorial.name,
+      published: tutorial.published,
     };
 
     TutorialDataService.create(data)
       .then(response => {
         setTutorial({
-          id: response.data.id,
+          account_no: response.account_no,
           amount: response.data.amount,
           description: response.data.description,
           published: response.data.published,
@@ -61,6 +66,30 @@ const AddTutorial = () => {
 	  </div>
 	) : (
 	  <div>
+       <div className="form-group">
+	      <label htmlFor="description">Name</label>
+	      <input
+		type="text"
+		className="form-control"
+		id="name"
+		required
+		value={tutorial.name}
+		onChange={handleInputChange}
+		name="name"
+	      />
+	    </div>
+      <div className="form-group">
+	      <label htmlFor="description">Email</label>
+	      <input
+		type="email"
+		className="form-control"
+		id="email"
+		required
+		value={tutorial.email}
+		onChange={handleInputChange}
+		name="email"
+	      />
+	    </div>
 	    <div className="form-group">
 	      <label htmlFor="amount">Amount</label>
 	      <input
@@ -77,12 +106,12 @@ const AddTutorial = () => {
       <div className="form-group">
       <label htmlFor="amount">Transaction</label>
       <select className="form-select" aria-label="select Transaction Type" name="transaction" value={tutorial.transaction} onChange={handleInputChange}>
-      <option disabled selected>Select a Transaction Type</option>
+      <option selected>Select a Transaction Type</option>
       <option name="transaction">Send</option>
       <option name="transaction">Request</option>
       </select>
       </div>
-
+    
 	    <div className="form-group">
 	      <label htmlFor="description">Description</label>
 	      <input
@@ -95,7 +124,7 @@ const AddTutorial = () => {
 		name="description"
 	      />
 	    </div>
-  
+
 	    <button onClick={saveTutorial} className="btn btn-success">
 	      Submit
 	    </button>

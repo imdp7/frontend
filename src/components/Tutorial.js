@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from "react";
 import TutorialDataService from "../services/TutorialService";
-import Table from "./Table";
+
 
 const Tutorial = (props) => {
-	console.log(props.match)
   const initialTutorialState = {
-    id: null,
+	account_no: null,
     balance:'',
     description: "",
     published: false,
-	account_no:'',
+	transaction:'',
+	amount: 0,
 	name: '',
-	email: '',
-	amount:''
+	email: ''
+	
   };
   const [currentTutorial, setCurrentTutorial] = useState(initialTutorialState);
   const [message, setMessage] = useState("");
 
-  const getTutorial = id => {
-    TutorialDataService.get(id)
+  const getTutorial = account_no => {
+    TutorialDataService.get(account_no)
       .then(response => {
         setCurrentTutorial(response.data);
         console.log(response.data);
@@ -29,8 +29,8 @@ const Tutorial = (props) => {
   };
 
   useEffect(() => {
-    getTutorial(props.match.params.id);
-  }, [props.match.params.id]);
+    getTutorial(props.match?.params?.account_no);
+  }, [props.match?.params?.account_no]);
 
   const handleInputChange = event => {
     const { name, value } = event.target;
@@ -39,8 +39,8 @@ const Tutorial = (props) => {
 
   const updatePublished = status => {
     var data = {
-      id: currentTutorial.id,
-      title: currentTutorial.title,
+      account_no: currentTutorial.account_no,
+      amount: currentTutorial.amount,
       description: currentTutorial.description,
       published: status
     };
@@ -67,7 +67,7 @@ const Tutorial = (props) => {
   };
 
   const deleteTutorial = () => {
-    TutorialDataService.remove(currentTutorial.id)
+    TutorialDataService.remove(currentTutorial.account_no)
       .then(response => {
         console.log(response.data);
         props.history.push("/tutorials");
@@ -88,8 +88,8 @@ const Tutorial = (props) => {
 		<input
 		  type="text"
 		  className="form-control"
-		  id="title"
-		  name="title"
+		  id="amount"
+		  name="amount"
 		  value={currentTutorial.amount}
 		  onChange={handleInputChange}
 		/>
@@ -151,7 +151,7 @@ const Tutorial = (props) => {
 	)}
 
 	
-		<Table/>
+		
       </div>
 	
     );
