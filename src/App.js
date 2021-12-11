@@ -5,23 +5,30 @@ import "./App.css";
 import AddTutorial from "./components/AddTutorial";
 import Tutorial from "./components/Tutorial";
 import TutorialsList from "./components/TutorialsList";
+import User from "./components/User";
+import Request from "./components/Request";
 
 function App() {
   return (
     <div>
       <nav className="navbar navbar-expand navbar-dark bg-dark mx-2 px-3">
-        <a href="/tutorials" className="navbar-brand">
+        <a href="/" className="navbar-brand">
           Wallet
         </a>
         <div className="navbar-nav mr-auto float-right">
           <li className="nav-item">
-            <Link to={"/tutorials"} className="nav-link">
-              Tutorials
+            <Link to={"/transactions"} className="nav-link">
+            Transactions
             </Link>
           </li>
           <li className="nav-item">
-            <Link to={"/add"} className="nav-link">
-              Add
+            <Link to={"/send"} className="nav-link">
+              Send
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to={"/request"} className="nav-link">
+              Request
             </Link>
           </li>
         </div>
@@ -30,9 +37,11 @@ function App() {
       <div className="container mt-3">
       
         <Routes>
-          <Route  path="/tutorials" element={<TutorialsList/>} />
-          <Route  path="/add" element={<AddTutorial/>} />
-          <Route path="/tutorials/:account_no" element={<Tutorial/>} />
+        <Route  path="/" element={<User/>} />
+          <Route  path="/transactions" element={<TutorialsList/>} />
+          <Route  path="/send" element={<AddTutorial/>} />
+          <Route  path="/request" element={<Request/>} />
+          <Route path="/transactions/:account_no" element={<Tutorial/>} />
         </Routes>
   
       </div>

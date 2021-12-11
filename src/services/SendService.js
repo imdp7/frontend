@@ -1,15 +1,13 @@
 import http from "../http-common";
 
 const getAll = () => {
-  return http.get("/tutorials");
+  return http.get("/send");
 };
-
+const create = data => {
+  return http.post("/send", data);
+};
 const get = account_no => {
   return http.get(`/tutorials/${account_no}`);
-};
-
-const create = data => {
-  return http.post("/tutorials", data);
 };
 
 const update = (account_no, data) => {
@@ -28,12 +26,12 @@ const findByTransaction = transaction => {
   return http.get(`/tutorials?transaction=${transaction}`);
 };
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   getAll,
-  get,
   create,
-  update,
-  remove,
-  removeAll,
-  findByTransaction
+  //update,
+  // remove,
+  // removeAll,
+  // findByTransaction
 };

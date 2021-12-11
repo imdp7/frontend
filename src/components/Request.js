@@ -1,14 +1,12 @@
 import React, { useState } from "react";
-import TutorialDataService from "../services/SendService";
+import TutorialDataService from "../services/RequestService";
 
-const AddTutorial = () => {
+const Request = () => {
   const initialTutorialState = {
-    st_id: null,
+    rt_id: null,
     amount: 0,
     date_time: null,
     memo: '',
-    cancel_reason: '',
-    id:'',
     ssn: '',
 
   };
@@ -24,7 +22,6 @@ const AddTutorial = () => {
     var data = {
       amount: tutorial.amount,
       memo: tutorial.description,
-      cancel_reason: tutorial.cancel_reason,
       ssn: tutorial.ssn,
     };
 
@@ -33,10 +30,8 @@ const AddTutorial = () => {
         setTutorial({
           amount: response.data.amount,
           memo: response.data.memo,
-          cancel_reason: response.data.cancel_reason,
-          id: response.data.id,
           ssn: response.data.ssn,
-          st_id: response.data.st_id,
+          rt_id: response.data.rt_id,
           date_time: response.data.date_time,
         
         });
@@ -65,7 +60,7 @@ const AddTutorial = () => {
 	) : (
 	  <div>
       <div className="text-center p-3">
-          <label htmlFor="title">Send Money</label>
+          <label htmlFor="title">Request Money</label>
         </div>
        <div className="form-group">
 	      <label htmlFor="description">Amount</label>
@@ -89,18 +84,6 @@ const AddTutorial = () => {
 		value={tutorial.memo}
 		onChange={handleInputChange}
 		name="memo"
-	      />
-	    </div>
-	    <div className="form-group">
-	      <label htmlFor="amount">Cancel Reason</label>
-	      <input
-		type="text"
-		className="form-control"
-		id="cancel_reason"
-		required
-		value={tutorial.cancel_reason}
-		onChange={handleInputChange}
-		name="cancel_reason"
 	      />
 	    </div>
     
@@ -128,4 +111,4 @@ const AddTutorial = () => {
   };
   
 
-export default AddTutorial;
+export default Request;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import TutorialDataService from "../services/TutorialService";
+import TutorialDataService from "../services/SendService";
 
 
 const Tutorial = (props) => {
