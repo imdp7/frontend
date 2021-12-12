@@ -1,33 +1,33 @@
 import React, { useState } from "react";
-import TutorialDataService from "../services/RequestService";
+import RequestDataService from "../services/RequestService";
 
 const Request = () => {
   const initialTutorialState = {
-    rt_id: null,
-    amount: 0,
-    date_time: null,
+    rt_id: '',
+    amount: '',
+    date_time: '',
     memo: '',
     ssn: '',
 
   };
-  const [tutorial, setTutorial] = useState(initialTutorialState);
+  const [request, setRequest] = useState(initialTutorialState);
   const [submitted, setSubmitted] = useState(false);
 
   const handleInputChange = event => {
     const { name, value } = event.target;
-    setTutorial({ ...tutorial, [name]: value });
+    setRequest({ ...request, [name]: value });
   };
 
   const saveTutorial = () => {
     var data = {
-      amount: tutorial.amount,
-      memo: tutorial.description,
-      ssn: tutorial.ssn,
+      amount: request.amount,
+      memo: request.description,
+      ssn: request.ssn,
     };
 
-    TutorialDataService.create(data)
+    RequestDataService.create(data)
       .then(response => {
-        setTutorial({
+        setRequest({
           amount: response.data.amount,
           memo: response.data.memo,
           ssn: response.data.ssn,
@@ -44,7 +44,7 @@ const Request = () => {
   };
 
   const newTutorial = () => {
-    setTutorial(initialTutorialState);
+    setRequest(initialTutorialState);
     setSubmitted(false);
   };
 
@@ -69,7 +69,7 @@ const Request = () => {
 		className="form-control"
 		id="amount"
 		required
-		value={tutorial.amount}
+		value={request.amount}
 		onChange={handleInputChange}
 		name="amount"
 	      />
@@ -81,7 +81,7 @@ const Request = () => {
 		className="form-control"
 		id="memo"
 		required
-		value={tutorial.memo}
+		value={request.memo}
 		onChange={handleInputChange}
 		name="memo"
 	      />
@@ -94,7 +94,7 @@ const Request = () => {
 		className="form-control"
 		id="ssn"
 		required
-		value={tutorial.ssn}
+		value={request.ssn}
 		onChange={handleInputChange}
 		name="ssn"
 	      />

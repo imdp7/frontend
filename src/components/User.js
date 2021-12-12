@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import UserDataService from "../services/UserService";
 
 const User = () => {
-  const initialTutorialState = {
+  const initialSendState = {
     name:'',
     phone_no:'',
     ssn:'',
@@ -11,7 +11,7 @@ const User = () => {
     pba_verified:'',
     balance:'',
   };
-  const [user, setUser] = useState(initialTutorialState);
+  const [user, setUser] = useState(initialSendState);
   const [submitted, setSubmitted] = useState(false);
 
   const handleInputChange = event => {
@@ -49,7 +49,7 @@ const User = () => {
   };
 
   const newTutorial = () => {
-    setUser(initialTutorialState);
+    setUser(initialSendState);
     setSubmitted(false);
   };
 

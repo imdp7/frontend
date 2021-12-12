@@ -1,41 +1,41 @@
 import React, { useState } from "react";
-import TutorialDataService from "../services/SendService";
+import SendDataService from "../services/SendService";
 
-const AddTutorial = () => {
-  const initialTutorialState = {
-    st_id: null,
-    amount: 0,
-    date_time: null,
+const Send = () => {
+  const initialSendState = {
+    st_id: '',
+    amount: '',
+    date_time: '',
     memo: '',
     cancel_reason: '',
     id:'',
     ssn: '',
 
   };
-  const [tutorial, setTutorial] = useState(initialTutorialState);
+  const [send, setSend] = useState(initialSendState);
   const [submitted, setSubmitted] = useState(false);
 
   const handleInputChange = event => {
     const { name, value } = event.target;
-    setTutorial({ ...tutorial, [name]: value });
+    setSend({ ...send, [name]: value });
   };
 
   const saveTutorial = () => {
     var data = {
-      amount: tutorial.amount,
-      memo: tutorial.description,
-      cancel_reason: tutorial.cancel_reason,
-      ssn: tutorial.ssn,
+      amount: send.amount,
+      memo: send.memo,
+      cancel_reason: send.cancel_reason,
+      ssn: send.ssn,
     };
 
-    TutorialDataService.create(data)
+    SendDataService.create(data)
       .then(response => {
-        setTutorial({
+        setSend({
           amount: response.data.amount,
           memo: response.data.memo,
           cancel_reason: response.data.cancel_reason,
-          id: response.data.id,
           ssn: response.data.ssn,
+          id: response.data.id,
           st_id: response.data.st_id,
           date_time: response.data.date_time,
         
@@ -49,7 +49,7 @@ const AddTutorial = () => {
   };
 
   const newTutorial = () => {
-    setTutorial(initialTutorialState);
+    setSend(initialSendState);
     setSubmitted(false);
   };
 
@@ -74,7 +74,7 @@ const AddTutorial = () => {
 		className="form-control"
 		id="amount"
 		required
-		value={tutorial.amount}
+		value={send.amount}
 		onChange={handleInputChange}
 		name="amount"
 	      />
@@ -86,7 +86,7 @@ const AddTutorial = () => {
 		className="form-control"
 		id="memo"
 		required
-		value={tutorial.memo}
+		value={send.memo}
 		onChange={handleInputChange}
 		name="memo"
 	      />
@@ -98,7 +98,7 @@ const AddTutorial = () => {
 		className="form-control"
 		id="cancel_reason"
 		required
-		value={tutorial.cancel_reason}
+		value={send.cancel_reason}
 		onChange={handleInputChange}
 		name="cancel_reason"
 	      />
@@ -111,7 +111,7 @@ const AddTutorial = () => {
 		className="form-control"
 		id="ssn"
 		required
-		value={tutorial.ssn}
+		value={send.ssn}
 		onChange={handleInputChange}
 		name="ssn"
 	      />
@@ -128,4 +128,4 @@ const AddTutorial = () => {
   };
   
 
-export default AddTutorial;
+export default Send;

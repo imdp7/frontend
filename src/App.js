@@ -2,7 +2,7 @@ import React from "react";
 import {Routes, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import AddTutorial from "./components/AddTutorial";
+import Send from "./components/Send";
 import Tutorial from "./components/Tutorial";
 import TutorialsList from "./components/TutorialsList";
 import User from "./components/User";
@@ -22,12 +22,12 @@ function App() {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to={"/send"} className="nav-link">
+            <Link to={"/sends"} className="nav-link">
               Send
             </Link>
           </li>
           <li className="nav-item">
-            <Link to={"/request"} className="nav-link">
+            <Link to={"/requests"} className="nav-link">
               Request
             </Link>
           </li>
@@ -39,8 +39,8 @@ function App() {
         <Routes>
         <Route  path="/" element={<User/>} />
           <Route  path="/transactions" element={<TutorialsList/>} />
-          <Route  path="/send" element={<AddTutorial/>} />
-          <Route  path="/request" element={<Request/>} />
+          <Route  path="/sends" element={<Send/>} />
+          <Route  path="/requests" element={<Request/>} />
           <Route path="/transactions/:account_no" element={<Tutorial/>} />
         </Routes>
   

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import TutorialDataService from "../services/SendService";
+import SendDataService from "../services/SendService";
+import RequestDataService from "../services/RequestService";
 import { Link } from "react-router-dom";
-import Table from "./Table";
 
 const TutorialsList = () => {
   const [tutorials, setTutorials] = useState([]);
@@ -19,7 +19,14 @@ const TutorialsList = () => {
   };
 
   const retrieveTutorials = () => {
-    TutorialDataService.getAll()
+    SendDataService.getAll()
+      .then(response => {
+        setTutorials(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+	  RequestDataService.getAll()
       .then(response => {
         setTutorials(response.data);
       })
@@ -40,7 +47,7 @@ const TutorialsList = () => {
   };
 
   const removeAllTutorials = () => {
-    TutorialDataService.removeAll()
+    SendDataService.removeAll()
       .then(response => {
         console.log(response.data);
         refreshList();
@@ -51,7 +58,7 @@ const TutorialsList = () => {
   };
 
   const findByTransaction = () => {
-    TutorialDataService.findByTransaction(searchTransaction)
+    SendDataService.findByTransaction(searchTransaction)
       .then(response => {
         setTutorials(response.data);
         console.log(response.data);
@@ -142,12 +149,6 @@ const TutorialsList = () => {
 		  <strong>Description:</strong>
 		</label>{" "}
 		{currentTutorial.description ? currentTutorial.description :'Not Available' }
-	      </div>
-	      <div>
-		<label>
-		  <strong>Status:</strong>
-		</label>{" "}
-		{currentTutorial.published ? "Published" : "Pending"}
 	      </div>
   
 	      <Link
