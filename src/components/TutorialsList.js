@@ -3,6 +3,7 @@ import SendDataService from "../services/SendService";
 import RequestDataService from "../services/RequestService";
 import { Link } from "react-router-dom";
 
+
 const TutorialsList = () => {
   const [tutorials, setTutorials] = useState([]);
   const [currentTutorial, setCurrentTutorial] = useState(null);
@@ -26,6 +27,7 @@ const TutorialsList = () => {
       .catch(e => {
         console.log(e);
       });
+	  
 	  RequestDataService.getAll()
       .then(response => {
         setTutorials(response.data);
@@ -103,7 +105,7 @@ const TutorialsList = () => {
 		  onClick={() => setActiveTutorial(tutorial, index)}
 		  key={index}
 		>
-		  {tutorial.account_no}
+		  {tutorial.memo}
 		</li>
 	      ))}
 	  </ul>
@@ -123,19 +125,13 @@ const TutorialsList = () => {
 		<label>
 		  <strong>Balance Available:</strong>
 		</label>{" "}
-		{currentTutorial.balance ? currentTutorial.balance :'Not Available'}
+		{currentTutorial.ssn ? currentTutorial.ssn :'Not Available'}
 	      </div>
 	      <div>
 		<label>
 		  <strong>Amount:</strong>
 		</label>{" "}
 		{currentTutorial.amount ? currentTutorial.amount : 'Not Available'}
-	      </div>
-		  <div>
-		<label>
-		  <strong>Transaction:</strong>
-		</label>{" "}
-		{currentTutorial.transaction}
 	      </div>
 		  <div>
 		<label>

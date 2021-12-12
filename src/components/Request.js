@@ -21,7 +21,7 @@ const Request = () => {
   const saveTutorial = () => {
     var data = {
       amount: request.amount,
-      memo: request.description,
+      memo: request.memo,
       ssn: request.ssn,
     };
 
