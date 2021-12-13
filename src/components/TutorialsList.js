@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from "react";
 import SendDataService from "../services/SendService";
 import RequestDataService from "../services/RequestService";
+import UserService from "../services/UserService";
 import { Link } from "react-router-dom";
 
 
 const TutorialsList = () => {
   const [tutorials, setTutorials] = useState([]);
+  const [send, setSend] = useState([]);
+  const [request, setRequest] = useState([]);
+  const [user, setUser] = useState([]);
   const [currentTutorial, setCurrentTutorial] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [searchTransaction, setSearchTransaction] = useState("");
 
   useEffect(() => {
-    retrieveTutorials();
+	sendTutorials();
+	requestTutorials();
   }, []);
 
   const onChangeSearchTransaction = e => {
@@ -19,18 +24,33 @@ const TutorialsList = () => {
     setSearchTransaction(searchTransaction);
   };
 
-  const retrieveTutorials = () => {
+  const sendTutorials = () => {
     SendDataService.getAll()
       .then(response => {
-        setTutorials(response.data);
+        setSend(response.data);
+		
       })
       .catch(e => {
         console.log(e);
       });
-	  
+  };
+
+  const requestTutorials = () => {
 	  RequestDataService.getAll()
       .then(response => {
-        setTutorials(response.data);
+        setRequest(response.data);
+		
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+  const userTutorials = () => {
+	  UserService.getAll()
+      .then(response => {
+		  const user = response.data;
+        setUser(user);
+		console.log(user.name)
       })
       .catch(e => {
         console.log(e);
@@ -38,14 +58,21 @@ const TutorialsList = () => {
   };
 
   const refreshList = () => {
-    retrieveTutorials();
+    sendTutorials();
+	requestTutorials();
+	userTutorials();
     setCurrentTutorial(null);
     setCurrentIndex(-1);
   };
 
-  const setActiveTutorial = (tutorial, index) => {
-    setCurrentTutorial(tutorial);
-    setCurrentIndex(index);
+  const setActiveSend = (send) => {
+    setCurrentTutorial(send);
+	setCurrentIndex(send.ssn);
+  };
+
+  const setActiveRequest = (request) => {
+    setCurrentTutorial(request);
+    setCurrentIndex(request.ssn);
   };
 
   const removeAllTutorials = () => {
@@ -96,16 +123,30 @@ const TutorialsList = () => {
 	  <h4>Transaction List</h4>
   
 	  <ul className="list-group">
-	    {tutorials &&
-	      tutorials.map((tutorial, index) => (
+	    {send &&
+	      send.map((sen, index) => (
 		<li
 		  className={
 		    "list-group-item " + (index === currentIndex ? "active" : "")
 		  }
-		  onClick={() => setActiveTutorial(tutorial, index)}
-		  key={index}
+		  onClick={() => setActiveSend(sen, index)}
+		  key={sen.ssn}
 		>
-		  {tutorial.memo}
+		  Send : {sen.memo}
+		</li>
+	      ))}
+	  </ul>
+	  <ul className="list-group">
+	    {request &&
+	      request.map((req, index) => (
+		<li
+		  className={
+		    "list-group-item " + (index === currentIndex ? "active" : "")
+		  }
+		  onClick={() => setActiveRequest(req, index)}
+		  key={req.ssn}
+		>
+		  Request : {req.memo}
 		</li>
 	      ))}
 	  </ul>
@@ -123,10 +164,18 @@ const TutorialsList = () => {
 	      <h4>Transaction</h4>
 	      <div>
 		<label>
-		  <strong>Balance Available:</strong>
+		  <strong>SSN:</strong>
 		</label>{" "}
 		{currentTutorial.ssn ? currentTutorial.ssn :'Not Available'}
 	      </div>
+			  {user.name ?
+	      <div>
+		<label>
+		  <strong>Name:</strong>
+		</label>{" "}
+		{user.name ? user.name :'Not Available'}
+	      </div>
+		  : null}
 	      <div>
 		<label>
 		  <strong>Amount:</strong>
@@ -135,20 +184,20 @@ const TutorialsList = () => {
 	      </div>
 		  <div>
 		<label>
-		  <strong>Email:</strong>
+		  <strong>Created At:</strong>
 		</label>{" "}
-		{currentTutorial.email ? currentTutorial.email :'Not Available' }
+		{currentTutorial.createdAt ? currentTutorial.createdAt :'Not Available' }
 	      </div>
 
 	      <div>
 		<label>
-		  <strong>Description:</strong>
+		  <strong>Memo:</strong>
 		</label>{" "}
-		{currentTutorial.description ? currentTutorial.description :'Not Available' }
+		{currentTutorial.memo ? currentTutorial.memo :'Not Available' }
 	      </div>
   
 	      <Link
-		to={"/tutorials/" + currentTutorial.account_no}
+		to={"/transactions/" + currentTutorial.ssn}
 		className="badge badge-warning border border-warning text-warning"
 	      >
 		Edit

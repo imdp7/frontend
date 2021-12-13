@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from "react";
-import TutorialDataService from "../services/SendService";
+import SendDataService from "../services/SendService";
 
 
 const Tutorial = (props) => {
   const initialTutorialState = {
-	account_no: null,
-    balance:'',
-    description: "",
-    published: false,
-	transaction:'',
-	amount: 0,
-	name: '',
-	email: ''
+	id:null,
+    amount:'',
+    memo: "",
+    createdAt: "",
+	published: false
 	
   };
   const [currentTutorial, setCurrentTutorial] = useState(initialTutorialState);
   const [message, setMessage] = useState("");
 
-  const getTutorial = account_no => {
-    TutorialDataService.get(account_no)
+  const getTutorial = id => {
+    SendDataService.get(id)
       .then(response => {
         setCurrentTutorial(response.data);
         console.log(response.data);
@@ -28,26 +25,24 @@ const Tutorial = (props) => {
       });
   };
 
-  useEffect(() => {
-    getTutorial(props.match?.params?.account_no);
-  }, [props.match?.params?.account_no]);
+
 
   const handleInputChange = event => {
     const { name, value } = event.target;
     setCurrentTutorial({ ...currentTutorial, [name]: value });
   };
 
-  const updatePublished = status => {
+  const updatePublished = () => {
     var data = {
-      account_no: currentTutorial.account_no,
+      ssn: currentTutorial.ssn,
       amount: currentTutorial.amount,
-      description: currentTutorial.description,
-      published: status
+      memo: currentTutorial.memo,
+      
     };
 
-    TutorialDataService.update(currentTutorial.id, data)
+    SendDataService.update(currentTutorial.ssn, data)
       .then(response => {
-        setCurrentTutorial({ ...currentTutorial, published: status });
+        setCurrentTutorial({ ...currentTutorial});
         console.log(response.data);
       })
       .catch(e => {
@@ -56,7 +51,7 @@ const Tutorial = (props) => {
   };
 
   const updateTutorial = () => {
-    TutorialDataService.update(currentTutorial.id, currentTutorial)
+    SendDataService.update(currentTutorial.ssn, currentTutorial)
       .then(response => {
         console.log(response.data);
         setMessage("The tutorial was updated successfully!");
@@ -67,10 +62,10 @@ const Tutorial = (props) => {
   };
 
   const deleteTutorial = () => {
-    TutorialDataService.remove(currentTutorial.account_no)
+    SendDataService.remove(currentTutorial.ssn)
       .then(response => {
         console.log(response.data);
-        props.history.push("/tutorials");
+        props.history.push("/transactions");
       })
       .catch(e => {
         console.log(e);
@@ -95,48 +90,25 @@ const Tutorial = (props) => {
 		/>
 	      </div>
 	      <div className="form-group">
-		<label htmlFor="description">Description</label>
+		<label htmlFor="description">Memo</label>
 		<input
 		  type="text"
 		  className="form-control"
-		  id="description"
-		  name="description"
-		  value={currentTutorial.description}
+		  id="memo"
+		  name="memo"
+		  value={currentTutorial.memo}
 		  onChange={handleInputChange}
 		/>
 	      </div>
-  
-	      <div className="form-group">
-		<label>
-		  <strong>Status:</strong>
-		</label>
-		{currentTutorial.published ? "Published" : "Pending"}
-	      </div>
 	    </form>
   
-	    {currentTutorial.published ? (
-	      <button
-		className="badge badge-primary mr-2"
-		onClick={() => updatePublished(false)}
-	      >
-		UnPublish
-	      </button>
-	    ) : (
-	      <button
-		className="badge badge-primary mr-2"
-		onClick={() => updatePublished(true)}
-	      >
-		Publish
-	      </button>
-	    )}
-  
-	    <button className="badge badge-danger mr-2" onClick={deleteTutorial}>
+	    <button className="badge badge-danger mr-2 border border-warning text-warning" onClick={deleteTutorial}>
 	      Delete
 	    </button>
   
 	    <button
 	      type="submit"
-	      className="badge badge-success"
+	      className="badge badge-success border border-warning text-warning"
 	      onClick={updateTutorial}
 	    >
 	      Update

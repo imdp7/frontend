@@ -41,7 +41,7 @@ function App() {
           <Route  path="/transactions" element={<TutorialsList/>} />
           <Route  path="/sends" element={<Send/>} />
           <Route  path="/requests" element={<Request/>} />
-          <Route path="/transactions/:account_no" element={<Tutorial/>} />
+          <Route path="/transactions/:ssn" element={<Tutorial/>} />
         </Routes>
   
       </div>
