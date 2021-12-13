@@ -8,6 +8,7 @@ const Request = () => {
     date_time: '',
     memo: '',
     ssn: '',
+    id: null,
 
   };
   const [request, setRequest] = useState(initialTutorialState);
@@ -23,6 +24,7 @@ const Request = () => {
       amount: request.amount,
       memo: request.memo,
       ssn: request.ssn,
+      
     };
 
     RequestDataService.create(data)
@@ -33,6 +35,7 @@ const Request = () => {
           ssn: response.data.ssn,
           rt_id: response.data.rt_id,
           date_time: response.data.date_time,
+          id: response.data.id,
         
         });
         setSubmitted(true);

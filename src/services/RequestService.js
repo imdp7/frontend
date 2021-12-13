@@ -8,8 +8,8 @@ const create = data => {
   return http.post("/request", data);
 };
 
-const get = id => {
-  return http.get(`/request/${id}`);
+const get = ssn => {
+  return http.get(`/request/${ssn}`);
 };
 
 

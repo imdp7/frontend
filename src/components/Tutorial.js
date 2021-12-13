@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from "react";
 import SendDataService from "../services/SendService";
+import RequestDataService from "../services/RequestService";
+import { useNavigate } from 'react-router-dom';
 
-
-const Tutorial = (props) => {
+const Tutorial = ({ match }) => {
+	const navigate = useNavigate();
+	
   const initialTutorialState = {
-	id:null,
+	ssn:'',
     amount:'',
     memo: "",
     createdAt: "",
-	published: false
+	id:''
 	
   };
   const [currentTutorial, setCurrentTutorial] = useState(initialTutorialState);
   const [message, setMessage] = useState("");
 
-  const getTutorial = id => {
-    SendDataService.get(id)
+  const getTutorial = ssn => {
+    SendDataService.get(ssn)
       .then(response => {
         setCurrentTutorial(response.data);
         console.log(response.data);
@@ -25,6 +28,9 @@ const Tutorial = (props) => {
       });
   };
 
+  useEffect(() => {
+    getTutorial(match?.params?.ssn);
+  }, [match?.params?.ssn]);
 
 
   const handleInputChange = event => {
@@ -32,23 +38,6 @@ const Tutorial = (props) => {
     setCurrentTutorial({ ...currentTutorial, [name]: value });
   };
 
-  const updatePublished = () => {
-    var data = {
-      ssn: currentTutorial.ssn,
-      amount: currentTutorial.amount,
-      memo: currentTutorial.memo,
-      
-    };
-
-    SendDataService.update(currentTutorial.ssn, data)
-      .then(response => {
-        setCurrentTutorial({ ...currentTutorial});
-        console.log(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
 
   const updateTutorial = () => {
     SendDataService.update(currentTutorial.ssn, currentTutorial)
@@ -65,7 +54,15 @@ const Tutorial = (props) => {
     SendDataService.remove(currentTutorial.ssn)
       .then(response => {
         console.log(response.data);
-        props.history.push("/transactions");
+        navigate('/transactions');
+      })
+      .catch(e => {
+        console.log(e);
+      });
+    RequestDataService.remove(currentTutorial.ssn)
+      .then(response => {
+        console.log(response.data);
+        navigate('/transactions');
       })
       .catch(e => {
         console.log(e);
@@ -101,7 +98,7 @@ const Tutorial = (props) => {
 		/>
 	      </div>
 	    </form>
-  
+
 	    <button className="badge badge-danger mr-2 border border-warning text-warning" onClick={deleteTutorial}>
 	      Delete
 	    </button>

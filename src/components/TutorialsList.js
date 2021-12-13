@@ -14,6 +14,7 @@ const TutorialsList = () => {
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [searchTransaction, setSearchTransaction] = useState("");
 
+
   useEffect(() => {
 	sendTutorials();
 	requestTutorials();
@@ -48,7 +49,7 @@ const TutorialsList = () => {
   const userTutorials = () => {
 	  UserService.getAll()
       .then(response => {
-		  const user = response.data;
+		  const user = response.data[0];
         setUser(user);
 		console.log(user.name)
       })
@@ -75,17 +76,28 @@ const TutorialsList = () => {
     setCurrentIndex(request.ssn);
   };
 
-  const removeAllTutorials = () => {
+  const removeAllSendTutorials = () => {
     SendDataService.removeAll()
       .then(response => {
         console.log(response.data);
         refreshList();
+		
       })
       .catch(e => {
         console.log(e);
       });
-  };
-
+	}
+  const removeAllRequestTutorials = () => {
+    RequestDataService.removeAll()
+      .then(response => {
+        console.log(response.data);
+        refreshList();
+	
+      })
+      .catch(e => {
+        console.log(e);
+      });
+	}
   const findByTransaction = () => {
     SendDataService.findByTransaction(searchTransaction)
       .then(response => {
@@ -150,13 +162,22 @@ const TutorialsList = () => {
 		</li>
 	      ))}
 	  </ul>
-  
+	{send.length > 0 ?
 	  <button
 	    className="m-3 btn btn-sm btn-danger"
-	    onClick={removeAllTutorials}
+	    onClick={removeAllSendTutorials}
 	  >
-	    Remove All
+	    Remove All Send
 	  </button>
+		:null }
+	{request.length >0 ?
+	  <button
+	    className="m-3 btn btn-sm btn-danger"
+	    onClick={removeAllRequestTutorials}
+	  >
+	    Remove All Request
+	  </button>
+	: null}
 	</div>
 	<div className="col-md-6">
 	  {currentTutorial ? (

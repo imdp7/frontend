@@ -8,16 +8,16 @@ const create = data => {
   return http.post("/user", data);
 };
 
-const get = ssn => {
-  return http.get(`/user/${ssn}`);
+const get = id => {
+  return http.get(`/user/${id}`);
 };
 
-const update = (ssn, data) => {
-  return http.put(`/user/${ssn}`, data);
+const update = (id, data) => {
+  return http.put(`/user/${id}`, data);
 };
 
-const remove = ssn => {
-  return http.delete(`/user/${ssn}`);
+const remove = id => {
+  return http.delete(`/user/${id}`);
 };
 
 const removeAll = () => {
